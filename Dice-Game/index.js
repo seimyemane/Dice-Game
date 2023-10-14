@@ -1,8 +1,6 @@
 "use strict";
 
 import Players from "./GameData.json" assert { type: "json" };
-console.log(Players);
-console.log(document);
 
 const rollBtn = document.getElementById("rollBtn");
 
@@ -15,6 +13,9 @@ const rollDicePNG = document?.querySelector(".roll-dice");
 const playerOneName = document.querySelector(".player-1-name");
 const playerTwoName = document.querySelector(".player-2-name");
 const buttonsContainer = document.querySelector(".buttons");
+const date = new Date();
+const year = date.getFullYear();
+const copyrightID = (document.getElementById("copyrightID").innerHTML = year);
 
 //adding event listeners to the buttons
 oneVSbotBtn.addEventListener("click", (e) => firstLoad(e));
@@ -39,6 +40,9 @@ const firstLoad = (e) => {
       document.querySelector(".game-container").classList.add("hidden")
     );
   }
+  setTimeout(() => {
+    alert("There first to reach 20 or above wins!");
+  }, 800);
 };
 
 firstLoad();
@@ -184,9 +188,20 @@ const handleActivePlayerSwitch = () => {
 
 const handleWinner = () => {
   const winner = currentPlayers?.find((winner) => {
-    return winner?.currentScore >= 30;
+    return winner?.currentScore >= 20;
   });
-  console.log(winner);
+  if (winner?.name === "Dealer") {
+    setTimeout(() => {
+      alert(`Player-1 wins with ${winner.currentScore}`);
+      handleReset();
+    }, 500);
+  }
+  if (winner?.name === "Player-1") {
+    setTimeout(() => {
+      alert(`Dealer wins with ${winner.currentScore}`);
+      handleReset();
+    }, 500);
+  }
 };
 
 const handlingBot = () => {
